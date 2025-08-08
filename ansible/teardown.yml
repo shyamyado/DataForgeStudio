@@ -1,0 +1,14 @@
+---
+- name: Stop Apache Spark Cluster and Cleanup
+  hosts: local
+  become: yes
+  tasks:
+
+    - name: Stop Spark cluster using docker-compose
+      command: docker-compose down
+      args:
+        chdir: "{{ playbook_dir }}/../docker"
+
+    - name: Remove Docker containers, images, volumes (optional cleanup)
+      shell: |
+        docker system prune -af --volumes

@@ -1,0 +1,67 @@
+---
+- name: Start Apache Spark Cluster Using Docker
+  hosts: local
+  become: yes
+  tasks:
+
+    - name: Install dependencies
+      apt:
+        name:
+          - apt-transport-https
+          - ca-certificates
+          - curl
+          - software-properties-common
+        state: present
+        update_cache: true
+
+    - name: Add Docker GPG key
+      apt_key:
+        url: https://download.docker.com/linux/ubuntu/gpg
+        state: present
+
+    - name: Add Docker APT repository
+      apt_repository:
+        repo: deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable
+        state: present
+
+    - name: Install Docker
+      apt:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+        state: latest
+        update_cache: true
+
+    - name: Install pip3
+      apt:
+        name: python3-pip
+        state: present
+
+    - name: Install Docker Compose (via apt)
+      apt:
+        name: docker-compose
+        state: present
+
+
+    - name: Add current user to docker group
+      user:
+        name: "{{ ansible_user_id }}"
+        groups: docker
+        append: yes
+
+    - name: Restart Docker (ensure group changes take effect)
+      become: yes
+      ansible.builtin.systemd:
+        name: docker
+        state: restarted
+        enabled: yes
+      ignore_errors: yes  # ⬅️ Add this line
+
+
+    - name: Run Spark cluster using docker-compose
+      command: docker-compose up -d
+      args:
+        chdir: "{{ playbook_dir }}/../docker"
+      environment:
+        PATH: "/usr/local/bin:/usr/bin:/bin"
