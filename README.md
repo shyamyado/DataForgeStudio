@@ -114,7 +114,8 @@ docker compose -f docker/docker-compose.yml up -d
 
 ## Access Spark Web UI
 
-* Spark Master: [http://localhost:8080](http://localhost:8080)
+* Spark Master UI : [http://localhost:8080](http://localhost:8080)
+* Spark Worker UI : [http://localhost:8081](http://localhost:8081)
 
 ---
 

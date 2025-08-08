@@ -1,9 +1,24 @@
+# Bytecode and cache
 __pycache__/
 *.pyc
+
+# Logs
 *.log
+docker/*.log
+
+# Environment & editor files
 .env
 *.swp
 .DS_Store
 .vscode/
-docker/*.log
+
+# PySpark app cache
 spark-app/__pycache__/
+
+# Ansible artifacts (if any get created)
+*.retry
+
+# Python packaging (optional, if you ever package this)
+*.egg-info/
+dist/
+build/
