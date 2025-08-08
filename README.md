@@ -162,8 +162,3 @@ Defines 1 master and 1 worker Spark services using Bitnami images.
 ### `spark-app/main.py`
 
 A basic example PySpark job reading from a CSV.
-
-```
-
-Let me know if you want to split the README into sections or add badges, make it GitHub-friendly, etc.
-```
