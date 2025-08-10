@@ -52,7 +52,7 @@ sudo apt install ansible -y
 
 ## Usage
 
-Use these one-liner shortcuts:
+### --- Option 1: Use these one-liner shortcuts: 
 
 ```bash
 # sudo apt update
@@ -63,7 +63,13 @@ make start     # Start cluster manually via Docker Compose
 make stop      # Stop cluster manually via Docker Compose
 make submit    # Submit PySpark job (main.py)
 ```
-
+### --- Option 2: Using docker compose ---
+```bash
+docker compose -f docker/docker-compose.yml up -d
+docker exec spark-master spark-submit --master spark://spark-master:7077 /opt/spark-app/main.py
+docker compose -f docker/docker-compose.yml down
+docker compose -f docker/docker-compose.yml ps
+```
 ---
 
 ### 🟢 Start Cluster
