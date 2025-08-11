@@ -1,4 +1,4 @@
-version: "3.9"
+version: "3.8"
 
 services:
   spark-master:
@@ -11,8 +11,6 @@ services:
       - "7077:7077"   # Spark submit
     networks:
       - spark-net
-    volumes:
-      - ../spark-app:/opt/spark-apps
 
   spark-worker-1:
     container_name: spark-worker-1
@@ -26,8 +24,23 @@ services:
       - "8081:8081"   # Spark Worker UI
     networks:
       - spark-net
+
+  jupyter:
+    container_name: jupyter
+    image: jupyter/pyspark-notebook:latest
+    ports:
+      - "8888:8888"
     volumes:
-      - ../spark-app:/opt/spark-apps
+      - ../jupyter-notebooks:/home/jovyan/work
+    environment:
+      - JUPYTER_ENABLE_LAB=yes
+      - SPARK_MASTER=spark://spark-master:7077
+      - PYSPARK_SUBMIT_ARGS=--master spark://spark-master:7077 pyspark-shell
+    depends_on:
+      - spark-master
+    networks:
+      - spark-net
 
 networks:
   spark-net:
+    name: spark-net
