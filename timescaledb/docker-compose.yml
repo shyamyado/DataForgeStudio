@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  timescaledb:
+    image: timescale/timescaledb:latest-pg16
+    container_name: timescaledb
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: tsuser
+      POSTGRES_PASSWORD: tspassword
+      POSTGRES_DB: tsdb
+    ports:
+      - "55432:5432"  # Host port 55432 maps to container 5432
+    volumes:
+      - timescaledb_data:/var/lib/postgresql/data
+
+volumes:
+  timescaledb_data:
